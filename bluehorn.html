@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Horn Systems | Executive Operational Support</title>
+    <link rel="icon" href="data:image/svg+xml,<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='h' x1='2' y1='22' x2='22' y2='2' gradientUnits='userSpaceOnUse'><stop offset='0%25' stop-color='%230056b3'/><stop offset='50%25' stop-color='%23007BFF'/><stop offset='100%25' stop-color='%2300e5ff'/></linearGradient></defs><rect x='3' y='11' width='4.5' height='9' rx='1' fill='url(%23h)'/><path d='M11.5 20C11.5 13.0964 17.0964 7.5 24 7.5V3C14.6112 3 7 10.6112 7 20H11.5Z' fill='url(%23h)'/></svg>">
+    <style>
+        /* Base Reset & Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&family=JetBrains+Mono:wght@400&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #030303;
+            color: #f4f4f5;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background */
+        .bg-grid {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; pointer-events: none;
+        }
+
+        .glow {
+            position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 60vw; height: 60vh;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1; filter: blur(50px);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; width: 100%; }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 5%; background: rgba(3, 3, 3, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); z-index: 50;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 16px; }
+        .logo-svg {
+            width: 26px;
+            height: 26px;
+            filter: drop-shadow(0 0 8px rgba(0, 123, 255, 0.4));
+            transition: transform 0.4s ease;
+        }
+        .logo-svg:hover {
+            transform: scale(1.05);
+        }
+        .logo-text { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #ffffff; }
+
+        .client-portal {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-decoration: none; color: #a1a1aa;
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.6rem 1.2rem; border-radius: 2px;
+            transition: all 0.4s ease; letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .client-portal:hover { color: #00e5ff; border-color: #00e5ff; background-color: rgba(0, 229, 255, 0.05); }
+
+        /* Hero */
+        main { flex: 1; padding-top: 12rem; }
+        #hero { display: flex; flex-direction: column; justify-content: center; padding-bottom: 8rem; }
+
+        .system-status { font-family: 'JetBrains Mono', monospace; color: #007BFF; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; }
+        .status-dot { width: 6px; height: 6px; background-color: #007BFF; border-radius: 50%; box-shadow: 0 0 10px #007BFF; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        h1 { font-size: 4.5rem; font-weight: 300; line-height: 1.05; max-width: 900px; margin-bottom: 2rem; letter-spacing: -0.03em; }
+        .sub-header { font-size: 1.25rem; color: #8a8a93; max-width: 650px; line-height: 1.6; margin-bottom: 3.5rem; font-weight: 300; }
+
+        /* THE BLUE BUTTON */
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 12px; border: none; cursor: pointer;
+            background: linear-gradient(135deg, #007BFF 0%, #0056b3 100%); color: #ffffff;
+            padding: 1.2rem 3rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+            border-radius: 2px; transition: all 0.3s ease; width: fit-content; font-family: 'Inter', sans-serif;
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3); opacity: 0.9; }
+
+        /* Services Grid */
+        #services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding-bottom: 8rem; }
+        .service-card {
+            border: 1px solid rgba(255, 255, 255, 0.05); background: linear-gradient(180deg, rgba(20, 20, 22, 0.4) 0%, rgba(10, 10, 12, 0.4) 100%);
+            backdrop-filter: blur(10px); padding: 3rem 2.5rem; border-radius: 4px; transition: all 0.4s ease; position: relative; overflow: hidden;
+        }
+        .service-card:hover { border-color: rgba(0, 123, 255, 0.3); transform: translateY(-5px); }
+
+        .pillar-title { font-family: 'JetBrains Mono', monospace; color: #007BFF; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .service-title { font-size: 1.75rem; font-weight: 400; margin-bottom: 1.5rem; letter-spacing: -0.02em; color: #ffffff; }
+        .service-desc { color: #8a8a93; font-size: 1rem; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300; }
+
+        .capability-list { list-style: none; color: #a1a1aa; font-size: 0.9rem; line-height: 2; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 1.5rem; }
+        .capability-list li { display: flex; align-items: center; gap: 10px; }
+        .capability-list li::before { content: ""; width: 4px; height: 4px; background: #007BFF; border-radius: 50%; }
+
+        /* --- MODAL FORM STYLES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px); z-index: 100; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: #0a0a0c; border: 1px solid #27272a; width: 100%; max-width: 500px;
+            padding: 3rem; border-radius: 4px; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #a1a1aa;
+            font-size: 1.5rem; cursor: pointer; transition: color 0.3s;
+        }
+        .close-btn:hover { color: #fff; }
+
+        .modal-header { margin-bottom: 2rem; }
+        .modal-header h2 { font-size: 1.5rem; font-weight: 400; margin-bottom: 0.5rem; }
+        .modal-header p { color: #8a8a93; font-size: 0.9rem; }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #a1a1aa; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
+        .form-control {
+            width: 100%; background: #141416; border: 1px solid #27272a; color: #fff; padding: 0.8rem 1rem;
+            font-family: 'Inter', sans-serif; font-size: 0.9rem; border-radius: 2px; transition: border-color 0.3s;
+        }
+        .form-control:focus { outline: none; border-color: #007BFF; }
+        textarea.form-control { resize: vertical; min-height: 100px; }
+
+        .submit-btn {
+            width: 100%; background: #ffffff; color: #000000; border: none; padding: 1rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.3s;
+        }
+        .submit-btn:hover { background: #007BFF; color: #ffffff; }
+
+        footer { padding: 3rem 5%; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #52525b; border-top: 1px solid rgba(255, 255, 255, 0.05); letter-spacing: 0.1em; text-transform: uppercase; display: flex; justify-content: space-between; }
+
+        @media (max-width: 1024px) { h1 { font-size: 3.5rem; } #services { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.75rem; } #services { grid-template-columns: 1fr; } header { padding: 1.5rem 1rem; } .client-portal { display: none; }
+            .modal-content { margin: 1rem; padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="glow"></div>
+
+<header>
+    <div class="logo-container">
+        <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="hornGrad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#0056b3"/>
+                    <stop offset="50%" stop-color="#007BFF"/>
+                    <stop offset="100%" stop-color="#00e5ff"/>
+                </linearGradient>
+            </defs>
+            <rect x="3" y="11" width="4.5" height="9" rx="1" fill="url(#hornGrad)"/>
+            <path d="M11.5 20C11.5 13.0964 17.0964 7.5 24 7.5V3C14.6112 3 7 10.6112 7 20H11.5Z" fill="url(#hornGrad)"/>
+        </svg>
+        <div class="logo-text">Blue Horn Systems</div>
+    </div>
+    <a href="#" class="client-portal" onclick="alert('AUTH REQUIRED: Client Portal access is currently restricted to active principals and managed endpoints.')">Client Login ↗</a>
+</header>
+
+<div class="container">
+    <main>
+        <section id="hero">
+            <div class="system-status">
+                <div class="status-dot"></div>
+                Currently By Referral Only
+            </div>
+            <h1>Bespoke Operational Support for the C-Suite.</h1>
+            <p class="sub-header">Engineered specifically for principals who are simultaneously executing advanced degrees and running global operations. We bridge the gap between academic rigor and executive bandwidth.</p>
+            <button class="cta-btn" onclick="openModal()">Initialize Consultation</button>
+        </section>
+
+        <section id="services">
+            <article class="service-card">
+                <p class="pillar-title">Architecture 01</p>
+                <h2 class="service-title">Asymmetric Research & Synthesis</h2>
+                <p class="service-desc">We process complex documentation, synthesize critical data, and manage secure knowledge repositories, allowing you to focus on macro-level execution.</p>
+                <ul class="capability-list">
+                    <li>PDF & Literature Synthesis</li>
+                    <li>Thematic Deep-Dive Research</li>
+                    <li>Manuscript & Citation Formatting</li>
+                    <li>Portal & Credentials Administration</li>
+                </ul>
+            </article>
+
+            <article class="service-card">
+                <p class="pillar-title">Architecture 02</p>
+                <h2 class="service-title">Strategic Logistics</h2>
+                <p class="service-desc">We eliminate friction in your daily matrix. Precision-grade operational support allowing executives and founders to maintain total focus on macro-strategy.</p>
+                <ul class="capability-list">
+                    <li>Inbox Triage & Diary Defense</li>
+                    <li>Private Travel Itineraries</li>
+                    <li>Vendor & Contractor Procurement</li>
+                    <li>Encrypted Asset Management</li>
+                </ul>
+            </article>
+
+            <article class="service-card">
+                <p class="pillar-title">Architecture 03</p>
+                <h2 class="service-title">Workflow Automation</h2>
+                <p class="service-desc">Software-driven leverage. We deploy custom backend scripts to automate repetitive operational mechanics, recapturing hours of compound time.</p>
+                <ul class="capability-list">
+                    <li>Custom Python Scripting</li>
+                    <li>Legacy Workflow Overhauls</li>
+                    <li>Third-Party API Integrations</li>
+                    <li>Automated Data Batching</li>
+                </ul>
+            </article>
+        </section>
+    </main>
+</div>
+
+<div class="modal-overlay" id="consultModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">×</button>
+        <div class="modal-header">
+            <h2>Send us an Inquiry</h2>
+            <p>Structure your operational requirements below.</p>
+        </div>
+
+        <form id="inquiryForm" onsubmit="processForm(event)">
+            <div class="form-group">
+                <label for="principalName">Principal Name / Organization</label>
+                <input type="text" id="principalName" class="form-control" required placeholder="e.g., Jane Doe, Acme Corp">
+            </div>
+
+            <div class="form-group">
+                <label for="referral">Referring Principal / Access Code</label>
+                <input type="text" id="referral" class="form-control" required placeholder="Who referred you to us?">
+            </div>
+
+            <div class="form-group">
+                <label for="primaryFocus">Primary Architecture Required</label>
+                <select id="primaryFocus" class="form-control" required>
+                    <option value="Asymmetric Research">Architecture 01: Asymmetric Research & Synthesis</option>
+                    <option value="Strategic Logistics">Architecture 02: Strategic Logistics</option>
+                    <option value="Workflow Automation">Architecture 03: Workflow Automation</option>
+                    <option value="Comprehensive Stack">Comprehensive Stack (All)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bottleneck">Current Operational Bottleneck</label>
+                <textarea id="bottleneck" class="form-control" required placeholder="Briefly describe the friction point we need to solve..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Compile & Send Request</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <div>&copy; 2026 Blue Horn Systems.</div>
+    <div>NAIROBI, KENYA</div>
+</footer>
+
+<script>
+    const modal = document.getElementById('consultModal');
+
+    function openModal() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+
+    function processForm(e) {
+        e.preventDefault();
+
+        // Variable updated to match the corrected ID
+        const name = document.getElementById('principalName').value;
+        const referral = document.getElementById('referral').value;
+        const focus = document.getElementById('primaryFocus').value;
+        const bottleneck = document.getElementById('bottleneck').value;
+
+        const subject = encodeURIComponent(`Inquiry: ${name} - ${focus}`);
+
+        const bodyText = `SYSTEM INQUIRY GENERATED VIA PORTAL\n\n` +
+            `PRINCIPAL: ${name}\n` +
+            `AUTHORIZATION / REFERRED BY: ${referral}\n` +
+            `ARCHITECTURE REQUIRED: ${focus}\n\n` +
+            `CURRENT BOTTLENECK / CONTEXT:\n${bottleneck}\n\n` +
+            `-----------------------------------\n` +
+            `Please reply to this thread to establish communications.`;
+
+        const body = encodeURIComponent(bodyText);
+
+        window.location.href = `mailto:swafiyah@bluehorn.systems?subject=${subject}&body=${body}`;
+
+        closeModal();
+        document.getElementById('inquiryForm').reset();
+    }
+</script>
+</body>
+</html>
