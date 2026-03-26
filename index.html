@@ -3,328 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blue Horn Systems | Executive Operational Support</title>
+    <title>Blue Horn | Academic Concierge & Operations</title>
     <link rel="icon" href="data:image/svg+xml,<svg viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='h' x1='2' y1='22' x2='22' y2='2' gradientUnits='userSpaceOnUse'><stop offset='0%25' stop-color='%230056b3'/><stop offset='50%25' stop-color='%23007BFF'/><stop offset='100%25' stop-color='%2300e5ff'/></linearGradient></defs><rect x='3' y='11' width='4.5' height='9' rx='1' fill='url(%23h)'/><path d='M11.5 20C11.5 13.0964 17.0964 7.5 24 7.5V3C14.6112 3 7 10.6112 7 20H11.5Z' fill='url(%23h)'/></svg>">
     <style>
-        /* Base Reset & Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&family=JetBrains+Mono:wght@400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=JetBrains+Mono:wght@400&display=swap');
+
+        :root {
+            --accent: #007BFF;
+            --bg: #030303;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-dim: #a1a1aa;
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: #f4f4f5; font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
 
-        body {
-            background-color: #030303;
-            color: #f4f4f5;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
+        /* THE MONOLITH (3D DEPTH) */
+        .monolith {
+            position: fixed; top: 10%; right: -5%; width: 550px; height: 550px;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 123, 255, 0.15), rgba(3, 3, 3, 0));
+            filter: blur(90px); border-radius: 50%; z-index: -1; animation: breathe 15s infinite ease-in-out;
         }
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.15); opacity: 0.8; } }
 
-        /* Ambient Background */
-        .bg-grid {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px; z-index: -1; pointer-events: none;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
 
-        .glow {
-            position: fixed; top: -20%; left: 50%; transform: translateX(-50%); width: 60vw; height: 60vh;
-            background: radial-gradient(circle, rgba(0, 123, 255, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
-            z-index: -1; filter: blur(50px);
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; width: 100%; }
-
-        /* Header */
+        /* HEADER */
         header {
-            position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 5%; background: rgba(3, 3, 3, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); z-index: 50;
+            position: fixed; top: 0; width: 100%; padding: 1.5rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(3, 3, 3, 0.7); backdrop-filter: blur(20px); z-index: 100;
+            border-bottom: 1px solid var(--border);
         }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.8rem; }
+        .logo-icon { width: 22px; height: 22px; filter: drop-shadow(0 0 10px var(--accent)); }
 
-        .logo-container { display: flex; align-items: center; gap: 16px; }
-        .logo-svg {
-            width: 26px;
-            height: 26px;
-            filter: drop-shadow(0 0 8px rgba(0, 123, 255, 0.4));
-            transition: transform 0.4s ease;
+        .client-portal { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-dim); text-decoration: none; border: 1px solid var(--border); padding: 0.5rem 1rem; transition: 0.3s; }
+        .client-portal:hover { color: #fff; border-color: var(--accent); }
+
+        /* HERO SECTION */
+        .hero { padding: 15rem 0 10rem; position: relative; }
+
+        /* Subtle but Obvious Status Badge */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            color: var(--accent); letter-spacing: 0.25em; text-transform: uppercase;
+            background: rgba(0, 123, 255, 0.05); padding: 6px 15px;
+            border-radius: 100px; border: 1px solid rgba(0, 123, 255, 0.15);
+            margin-bottom: 2rem;
         }
-        .logo-svg:hover {
-            transform: scale(1.05);
+        .status-dot {
+            width: 5px; height: 5px; background-color: var(--accent);
+            border-radius: 50%; box-shadow: 0 0 8px var(--accent);
+            animation: pulse-ring 3s infinite ease-in-out;
         }
-        .logo-text { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #ffffff; }
+        @keyframes pulse-ring { 0%, 100% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.3); opacity: 1; } }
 
-        .client-portal {
-            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; text-decoration: none; color: #a1a1aa;
-            border: 1px solid rgba(255, 255, 255, 0.1); padding: 0.6rem 1.2rem; border-radius: 2px;
-            transition: all 0.4s ease; letter-spacing: 0.1em; text-transform: uppercase;
-        }
-        .client-portal:hover { color: #00e5ff; border-color: #00e5ff; background-color: rgba(0, 229, 255, 0.05); }
+        h1 { font-size: 4rem; font-weight: 300; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 1.5rem; max-width: 800px; }
+        .hero p { font-size: 1.25rem; color: var(--text-dim); margin-bottom: 3rem; }
 
-        /* Hero */
-        main { flex: 1; padding-top: 12rem; }
-        #hero { display: flex; flex-direction: column; justify-content: center; padding-bottom: 8rem; }
-
-        .system-status { font-family: 'JetBrains Mono', monospace; color: #007BFF; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; }
-        .status-dot { width: 6px; height: 6px; background-color: #007BFF; border-radius: 50%; box-shadow: 0 0 10px #007BFF; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-
-        h1 { font-size: 4.5rem; font-weight: 300; line-height: 1.05; max-width: 900px; margin-bottom: 2rem; letter-spacing: -0.03em; }
-        .sub-header { font-size: 1.25rem; color: #8a8a93; max-width: 650px; line-height: 1.6; margin-bottom: 3.5rem; font-weight: 300; }
-
-        /* THE BLUE BUTTON */
         .cta-btn {
-            display: inline-flex; align-items: center; gap: 12px; border: none; cursor: pointer;
-            background: linear-gradient(135deg, #007BFF 0%, #0056b3 100%); color: #ffffff;
-            padding: 1.2rem 3rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-            border-radius: 2px; transition: all 0.3s ease; width: fit-content; font-family: 'Inter', sans-serif;
+            background: var(--accent); color: white; border: none; padding: 1.2rem 2.5rem;
+            font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            cursor: pointer; transition: 0.4s; border-radius: 2px;
         }
-        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3); opacity: 0.9; }
+        .cta-btn:hover { background: #0056b3; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 123, 255, 0.3); }
 
-        /* Services Grid */
-        #services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding-bottom: 8rem; }
-        .service-card {
-            border: 1px solid rgba(255, 255, 255, 0.05); background: linear-gradient(180deg, rgba(20, 20, 22, 0.4) 0%, rgba(10, 10, 12, 0.4) 100%);
-            backdrop-filter: blur(10px); padding: 3rem 2.5rem; border-radius: 4px; transition: all 0.4s ease; position: relative; overflow: hidden;
+        /* SECTIONS */
+        section { padding: 8rem 0; border-top: 1px solid var(--border); }
+        .label { font-family: 'JetBrains Mono'; color: var(--accent); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+        h2 { font-size: 2.5rem; font-weight: 300; margin-bottom: 3rem; }
+
+        /* SERVICES GRID (3x2 Balanced) */
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .card { background: var(--glass); border: 1px solid var(--border); padding: 3rem 2rem; border-radius: 4px; transition: 0.3s; }
+        .card:hover { border-color: var(--accent); background: rgba(0, 123, 255, 0.02); }
+        .card h3 { font-size: 1.1rem; margin-bottom: 1rem; font-weight: 400; }
+        .card p { font-size: 0.85rem; color: var(--text-dim); }
+        .card-icon { width: 24px; height: 24px; margin-bottom: 1.2rem; display: block; color: var(--accent); filter: drop-shadow(0 0 5px rgba(0,123,255,0.2)); }
+        .card-icon svg { width: 100%; height: 100%; stroke-width: 1.2px; }
+
+        /* PROCESS FLOW (The Digital Rail) */
+        .process-flow { display: flex; justify-content: space-between; position: relative; gap: 2rem; margin-top: 2rem; }
+        .process-flow::before {
+            content: ''; position: absolute; top: 22px; left: 10%; right: 10%;
+            height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent);
+            z-index: 0;
         }
-        .service-card:hover { border-color: rgba(0, 123, 255, 0.3); transform: translateY(-5px); }
-
-        .pillar-title { font-family: 'JetBrains Mono', monospace; color: #007BFF; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; }
-        .service-title { font-size: 1.75rem; font-weight: 400; margin-bottom: 1.5rem; letter-spacing: -0.02em; color: #ffffff; }
-        .service-desc { color: #8a8a93; font-size: 1rem; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300; }
-
-        .capability-list { list-style: none; color: #a1a1aa; font-size: 0.9rem; line-height: 2; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 1.5rem; }
-        .capability-list li { display: flex; align-items: center; gap: 10px; }
-        .capability-list li::before { content: ""; width: 4px; height: 4px; background: #007BFF; border-radius: 50%; }
-
-        /* --- MODAL FORM STYLES --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px); z-index: 100; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
+        .flow-step { flex: 1; text-align: center; position: relative; z-index: 1; }
+        .flow-icon {
+            width: 45px; height: 45px; background: #030303; border: 1px solid var(--border);
+            border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center;
+            color: var(--accent);
         }
-        .modal-overlay.active { display: flex; opacity: 1; }
+        .flow-step h3 { font-size: 1rem; font-weight: 400; margin-bottom: 0.5rem; }
+        .flow-step p { font-size: 0.8rem; color: var(--text-dim); max-width: 200px; margin: 0 auto; }
 
-        .modal-content {
-            background: #0a0a0c; border: 1px solid #27272a; width: 100%; max-width: 500px;
-            padding: 3rem; border-radius: 4px; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
+        /* FAQ BRIEFING */
+        .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .faq-item { border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+        .faq-item h4 { font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--accent); margin-bottom: 1rem; text-transform: uppercase; }
+        .faq-item p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.7; }
 
-        .close-btn {
-            position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #a1a1aa;
-            font-size: 1.5rem; cursor: pointer; transition: color 0.3s;
-        }
-        .close-btn:hover { color: #fff; }
+        /* MODALS */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.94); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 1000; transition: opacity 0.3s; }
+        .modal.active { display: flex; }
+        .modal-content { background: #0a0a0c; border: 1px solid var(--border); padding: 3rem; width: 100%; max-width: 500px; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.5); }
+        .form-input { width: 100%; background: #141416; border: 1px solid #27272a; color: #fff; padding: 1rem; margin-bottom: 1rem; font-family: 'Inter'; border-radius: 2px; }
+        .form-input:focus { outline: none; border-color: var(--accent); }
+        .close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border:none; color:#fff; font-size: 1.5rem; cursor:pointer; opacity: 0.5; transition: 0.3s; }
+        .close-btn:hover { opacity: 1; }
 
-        .modal-header { margin-bottom: 2rem; }
-        .modal-header h2 { font-size: 1.5rem; font-weight: 400; margin-bottom: 0.5rem; }
-        .modal-header p { color: #8a8a93; font-size: 0.9rem; }
+        footer { padding: 5rem 5% 2rem; border-top: 1px solid var(--border); font-family: 'JetBrains Mono'; font-size: 0.65rem; color: #52525b; display: flex; justify-content: space-between; }
 
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #a1a1aa; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
-        .form-control {
-            width: 100%; background: #141416; border: 1px solid #27272a; color: #fff; padding: 0.8rem 1rem;
-            font-family: 'Inter', sans-serif; font-size: 0.9rem; border-radius: 2px; transition: border-color 0.3s;
-        }
-        .form-control:focus { outline: none; border-color: #007BFF; }
-        textarea.form-control { resize: vertical; min-height: 100px; }
-
-        .submit-btn {
-            width: 100%; background: #ffffff; color: #000000; border: none; padding: 1rem; font-weight: 600;
-            letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.3s;
-        }
-        .submit-btn:hover { background: #007BFF; color: #ffffff; }
-
-        footer { padding: 3rem 5%; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #52525b; border-top: 1px solid rgba(255, 255, 255, 0.05); letter-spacing: 0.1em; text-transform: uppercase; display: flex; justify-content: space-between; }
-
-        @media (max-width: 1024px) { h1 { font-size: 3.5rem; } #services { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
-            h1 { font-size: 2.75rem; } #services { grid-template-columns: 1fr; } header { padding: 1.5rem 1rem; } .client-portal { display: none; }
-            .modal-content { margin: 1rem; padding: 2rem; }
+            h1 { font-size: 2.5rem; }
+            .services-grid, .process-flow, .faq-grid { grid-template-columns: 1fr; flex-direction: column; gap: 3rem; }
+            .process-flow::before { display: none; }
         }
     </style>
 </head>
 <body>
-<div class="bg-grid"></div>
-<div class="glow"></div>
+
+<div class="monolith"></div>
 
 <header>
-    <div class="logo-container">
-        <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="hornGrad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#0056b3"/>
-                    <stop offset="50%" stop-color="#007BFF"/>
-                    <stop offset="100%" stop-color="#00e5ff"/>
-                </linearGradient>
-            </defs>
-            <rect x="3" y="11" width="4.5" height="9" rx="1" fill="url(#hornGrad)"/>
-            <path d="M11.5 20C11.5 13.0964 17.0964 7.5 24 7.5V3C14.6112 3 7 10.6112 7 20H11.5Z" fill="url(#hornGrad)"/>
+    <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="11" width="4.5" height="9" rx="1" fill="var(--accent)"/>
+            <path d="M11.5 20C11.5 13.0964 17.0964 7.5 24 7.5V3C14.6112 3 7 10.6112 7 20H11.5Z" fill="var(--accent)"/>
         </svg>
-        <div class="logo-text">Blue Horn Systems</div>
+        Blue Horn Systems
     </div>
-    <a href="#" class="client-portal" onclick="showAuthError()">Client Login ↗</a>
+    <a href="#" class="client-portal" onclick="openAccessModal()">Request Portal Access ↗</a>
 </header>
 
 <div class="container">
-    <main>
-        <section id="hero">
-            <div class="system-status">
-                <div class="status-dot"></div>
-                Currently By Referral Only
+    <section class="hero">
+        <span class="status-badge">
+            <div class="status-dot"></div>
+            Access Restricted: Invitation Only
+        </span>
+        <h1>For Those Who Prefer to <br>Focus on the Big Picture.</h1>
+        <p>We'll handle the details for you discreetly.</p>
+        <button class="cta-btn" onclick="openInquiryModal()">SEND INQUIRY</button>
+    </section>
+
+    <section>
+        <span class="label">Effortless. Confidential. Essential.</span>
+        <div style="max-width: 850px;">
+            <p style="font-size: 1.6rem; font-weight: 300; margin-bottom: 2.5rem;">
+                We understand the value of your time and the high cost of distraction. You don't have to explain why you're delegating.
+            </p>
+        </div>
+    </section>
+
+    <section id="process">
+        <span class="label">Our Process</span>
+        <h2>Simple. Silent. Effective.</h2>
+        <div class="process-flow">
+            <div class="flow-step">
+                <div class="flow-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20" stroke-width="1.2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3" stroke-linecap="round"/></svg>
+                </div>
+                <h3>Share Access</h3>
+                <p>Provide credentials via our secure endpoint. Everything is encrypted and confidential.</p>
             </div>
-            <h1>Bespoke Operational Support for the C-Suite.</h1>
-            <p class="sub-header">Engineered specifically for principals who are simultaneously executing advanced degrees and running global operations. We bridge the gap between academic rigor and executive bandwidth.</p>
-            <button class="cta-btn" onclick="openModal()">Initialize Consultation</button>
-        </section>
+            <div class="flow-step">
+                <div class="flow-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round"/></svg>
+                </div>
+                <h3>We Work</h3>
+                <p>From registration to exam logistics, it’s done. No updates unless you request them.</p>
+            </div>
+            <div class="flow-step">
+                <div class="flow-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20" stroke-width="1.2"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c3 3 9 3 12 0v-5" stroke-linecap="round"/></svg>
+                </div>
+                <h3>You Lead</h3>
+                <p>Focus entirely on your goals. We ensure the backend logistics remain seamless.</p>
+            </div>
+        </div>
+    </section>
 
-        <section id="services">
-            <article class="service-card">
-                <p class="pillar-title">Architecture 01</p>
-                <h2 class="service-title">Asymmetric Research & Synthesis</h2>
-                <p class="service-desc">We process complex documentation, synthesize critical data, and manage secure knowledge repositories, allowing you to focus on macro-level execution.</p>
-                <ul class="capability-list">
-                    <li>PDF & Literature Synthesis</li>
-                    <li>Thematic Deep-Dive Research</li>
-                    <li>Manuscript & Citation Formatting</li>
-                    <li>Portal & Credentials Administration</li>
-                </ul>
-            </article>
+    <section id="services">
+        <span class="label">Provisions</span>
+        <h2>Bespoke Academic Logistics</h2>
+        <div class="services-grid">
+            <div class="card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+                <h3>Portal Administration</h3>
+                <p>Your student dashboard, managed discreetly. We handle logins, registrations, and system updates.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <h3>Deadline Assurance</h3>
+                <p>Submissions and fees tracked silently. Our automated protocols ensure you never miss a beat.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg></div>
+                <h3>Email Curation</h3>
+                <p>School communications filtered and summarized. Only the high-level signal reaches your desk.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div>
+                <h3>Document Coordination</h3>
+                <p>Transcripts, certificates, and secure submissions organized and formatted to spec.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
+                <h3>Exam Logistics</h3>
+                <p>Proctoring, scheduling, and tech checks arranged without disruption to your executive flow.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+                <h3>Research Logistics</h3>
+                <p>Manuscript formatting and citation management for capstones and doctoral submissions.</p>
+            </div>
+        </div>
+    </section>
 
-            <article class="service-card">
-                <p class="pillar-title">Architecture 02</p>
-                <h2 class="service-title">Strategic Logistics</h2>
-                <p class="service-desc">We eliminate friction in your daily matrix. Precision-grade operational support allowing executives and founders to maintain total focus on macro-strategy.</p>
-                <ul class="capability-list">
-                    <li>Inbox Triage & Diary Defense</li>
-                    <li>Private Travel Itineraries</li>
-                    <li>Vendor & Contractor Procurement</li>
-                    <li>Encrypted Asset Management</li>
-                </ul>
-            </article>
+    <section id="faq">
+        <span class="label">Briefing</span>
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h4>How is my privacy guaranteed?</h4>
+                <p>We use military-grade encrypted vaults for credential storage. Our internal team operates under strict NDAs, and we never disclose client engagement to any third party.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Will my school know I’m using this service?</h4>
+                <p>No. We operate as a discreet extension of your personal office. We manage your portal exactly as you would, ensuring zero digital footprint of external involvement.</p>
+            </div>
+            <div class="faq-item">
+                <h4>What’s the onboarding process?</h4>
+                <p>Once you share your requirements securely, we confirm the technical handshake and begin working silently in the background immediately.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I revoke access at any time?</h4>
+                <p>Absolutely. You maintain total sovereignty over your credentials. We provide a "Kill Switch" protocol to terminate our access instantly if required.</p>
+            </div>
+        </div>
+    </section>
 
-            <article class="service-card">
-                <p class="pillar-title">Architecture 03</p>
-                <h2 class="service-title">Workflow Automation</h2>
-                <p class="service-desc">Software-driven leverage. We deploy custom backend scripts to automate repetitive operational mechanics, recapturing hours of compound time.</p>
-                <ul class="capability-list">
-                    <li>Custom Python Scripting</li>
-                    <li>Legacy Workflow Overhauls</li>
-                    <li>Third-Party API Integrations</li>
-                    <li>Automated Data Batching</li>
-                </ul>
-            </article>
-        </section>
-    </main>
+    <section style="text-align: center; border-bottom: none; padding-bottom: 5rem;">
+        <h2>Ready to Offload the Details?</h2>
+        <button class="cta-btn" onclick="openInquiryModal()">BRIEF US</button>
+    </section>
 </div>
 
-<div class="modal-overlay" id="consultModal">
+<footer>
+    <div>BLUEHORN: OPERATIONAL EXCELLENCE. DISCREETLY DELIVERED.</div>
+    <div style="display: flex; gap: 2rem;">
+        <span>SERVICES</span>
+        <span>CONTACT</span>
+        <span>PRIVACY POLICY</span>
+    </div>
+</footer>
+
+<div class="modal" id="inquiryModal">
     <div class="modal-content">
-        <button class="close-btn" onclick="closeModal()">×</button>
-        <div class="modal-header">
-            <h2>Send us an Inquiry</h2>
-            <p>Structure your operational requirements below.</p>
-        </div>
-
-        <form id="inquiryForm" onsubmit="processForm(event)">
-            <div class="form-group">
-                <label for="principalName">Principal Name / Organization</label>
-                <input type="text" id="principalName" class="form-control" required placeholder="e.g., Jane Doe, Acme Corp">
+        <button onclick="closeModal('inquiryModal')" class="close-btn">×</button>
+        <span class="label">Step 01: Perimeter Check</span>
+        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">New Principal Inquiry</h2>
+        <form onsubmit="processInquiry(event)">
+            <div style="border-left: 2px solid var(--accent); padding-left: 1rem; margin-bottom: 1.5rem;">
+                <label class="label" style="font-size: 0.6rem;">Mandatory Referral Name</label>
+                <input type="text" id="refName" placeholder="Who referred you?" class="form-input" required>
             </div>
-
-            <div class="form-group">
-                <label for="referral">Referring Principal / Access Code</label>
-                <input type="text" id="referral" class="form-control" required placeholder="Who referred you to us?">
-            </div>
-
-            <div class="form-group">
-                <label for="primaryFocus">Primary Architecture Required</label>
-                <select id="primaryFocus" class="form-control" required>
-                    <option value="Asymmetric Research">Architecture 01: Asymmetric Research & Synthesis</option>
-                    <option value="Strategic Logistics">Architecture 02: Strategic Logistics</option>
-                    <option value="Workflow Automation">Architecture 03: Workflow Automation</option>
-                    <option value="Comprehensive Stack">Comprehensive Stack (All)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="bottleneck">Current Operational Bottleneck</label>
-                <textarea id="bottleneck" class="form-control" required placeholder="Briefly describe the friction point we need to solve..."></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn">Compile & Send Request</button>
+            <input type="text" id="pName" placeholder="Full Name" class="form-input" required>
+            <textarea id="pNeeds" placeholder="Outline your operational bottlenecks..." class="form-input" style="height: 100px;"></textarea>
+            <button type="submit" class="cta-btn" style="width: 100%;">Initialize Screening</button>
         </form>
     </div>
 </div>
 
-<div class="modal-overlay" id="authModal">
-    <div class="modal-content" style="border-color: rgba(255, 59, 48, 0.3);">
-        <button class="close-btn" onclick="closeAuthModal()">×</button>
-        <div class="modal-header">
-            <p style="font-family: 'JetBrains Mono', monospace; color: #ff3b30; font-size: 0.7rem; letter-spacing: 0.1em; margin-bottom: 1rem;">[ ACCESS_DENIED ]</p>
-            <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Authentication Required</h2>
-            <p style="line-height: 1.6; color: #a1a1aa;">Client Portal access is currently restricted to active principals and managed endpoints. Remote initialization is disabled.</p>
-        </div>
-        <button class="submit-btn" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.2);" onclick="closeAuthModal()">Return to Secure Perimeter</button>
+<div class="modal" id="accessModal">
+    <div class="modal-content" style="border-color: var(--accent);">
+        <button onclick="closeModal('accessModal')" class="close-btn">×</button>
+        <span class="label">Step 02: Provisioning</span>
+        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Portal Account Setup</h2>
+        <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 1.5rem;">Enter your registered email to receive your secure login keys.</p>
+        <form onsubmit="processAccess(event)">
+            <input type="email" id="activeEmail" placeholder="Registered Email" class="form-input" required>
+            <input type="text" id="projectID" placeholder="Assigned Project ID" class="form-input">
+            <button type="submit" class="cta-btn" style="width: 100%; background: #fff; color: #000;">Request Login Keys</button>
+        </form>
     </div>
 </div>
-<footer>
-    <div>&copy; 2026 Blue Horn Systems.</div>
-    <div>NAIROBI, KENYA</div>
-</footer>
+
+<div class="modal" id="authModal">
+    <div class="modal-content" style="border-color: #ff3b30;">
+        <p style="font-family: 'JetBrains Mono'; color: #ff3b30; font-size: 0.7rem; margin-bottom: 1rem;">[ ACCESS_RESTRICTED ]</p>
+        <h2 style="font-size: 1.2rem; margin-bottom: 1.2rem;">Welcome. This is a private space.</h2>
+        <p style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 2rem;">To ensure every principal gets our full, undivided attention, we keep our network small. If we haven't been introduced yet, we would love to hear about your journey and how we can support it.</p>
+        <button class="cta-btn" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: 1px solid #ff3b30; width: 100%;" onclick="switchToInquiry()">Request Access</button>
+    </div>
+</div>
 
 <script>
-    const modal = document.getElementById('consultModal');
+    function openInquiryModal() { document.getElementById('inquiryModal').classList.add('active'); }
+    function openAccessModal() { showAuthError(); } // Defaults to Error for a "Security" vibe
+    function showAuthError() { document.getElementById('authModal').classList.add('active'); }
 
-    function openModal() {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    // THE ESCORT LOGIC
+    function switchToInquiry() {
+        closeModal('authModal');
+        setTimeout(() => { openInquiryModal(); }, 350);
     }
 
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
-        }
-    }
-
-    function processForm(e) {
+    // PROCESS INQUIRY: Routes to Njoro (hello@bluehorn.systems)
+    function processInquiry(e) {
         e.preventDefault();
-
-        // Variable updated to match the corrected ID
-        const name = document.getElementById('principalName').value;
-        const referral = document.getElementById('referral').value;
-        const focus = document.getElementById('primaryFocus').value;
-        const bottleneck = document.getElementById('bottleneck').value;
-
-        const subject = encodeURIComponent(`Inquiry: ${name} - ${focus}`);
-
-        const bodyText = `SYSTEM INQUIRY GENERATED VIA PORTAL\n\n` +
-            `PRINCIPAL: ${name}\n` +
-            `AUTHORIZATION / REFERRED BY: ${referral}\n` +
-            `ARCHITECTURE REQUIRED: ${focus}\n\n` +
-            `CURRENT BOTTLENECK / CONTEXT:\n${bottleneck}\n\n` +
-            `-----------------------------------\n` +
-            `Please reply to this thread to establish communications.`;
-
-        const body = encodeURIComponent(bodyText);
-
-        window.location.href = `mailto:swafiyah@bluehorn.systems?subject=${subject}&body=${body}`;
-
-        closeModal();
-        document.getElementById('inquiryForm').reset();
-    }
-    function showAuthError() {
-        document.getElementById('authModal').classList.add('active');
+        const ref = document.getElementById('refName').value;
+        const name = document.getElementById('pName').value;
+        const subject = encodeURIComponent(`SCREENING_REQUEST: ${name}`);
+        const body = encodeURIComponent(`REFERRAL: ${ref}\nNAME: ${name}\n\nCONTEXT:\n${document.getElementById('pNeeds').value}`);
+        window.location.href = `mailto:hello@bluehorn.systems?subject=${subject}&body=${body}`;
+        closeModal('inquiryModal');
     }
 
-    function closeAuthModal() {
-        document.getElementById('authModal').classList.remove('active');
+    // PROCESS ACCESS: Routes to Ndegwa (onboarding@bluehorn.systems)
+    function processAccess(e) {
+        e.preventDefault();
+        const email = document.getElementById('activeEmail').value;
+        const subject = encodeURIComponent(`PORTAL_PROVISIONING: ${email}`);
+        const body = encodeURIComponent(`PROVISIONING REQUEST\n\nEMAIL: ${email}\nPROJECT ID: ${document.getElementById('projectID').value}`);
+        window.location.href = `mailto:onboarding@bluehorn.systems?subject=${subject}&body=${body}`;
+        closeModal('accessModal');
+    }
+
+    window.onclick = (e) => {
+        if(e.target.classList.contains('modal')) {
+            closeModal('inquiryModal'); closeModal('accessModal'); closeModal('authModal');
+        }
     }
 </script>
 </body>
