@@ -164,7 +164,7 @@
         </svg>
         <div class="logo-text">Blue Horn Systems</div>
     </div>
-    <a href="#" class="client-portal" onclick="alert('AUTH REQUIRED: Client Portal access is currently restricted to active principals and managed endpoints.')">Client Login ↗</a>
+    <a href="#" class="client-portal" onclick="showAuthError()">Client Login ↗</a>
 </header>
 
 <div class="container">
@@ -258,6 +258,17 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="authModal">
+    <div class="modal-content" style="border-color: rgba(255, 59, 48, 0.3);">
+        <button class="close-btn" onclick="closeAuthModal()">×</button>
+        <div class="modal-header">
+            <p style="font-family: 'JetBrains Mono', monospace; color: #ff3b30; font-size: 0.7rem; letter-spacing: 0.1em; margin-bottom: 1rem;">[ ACCESS_DENIED ]</p>
+            <h2 style="font-size: 1.2rem; margin-bottom: 1rem;">Authentication Required</h2>
+            <p style="line-height: 1.6; color: #a1a1aa;">Client Portal access is currently restricted to active principals and managed endpoints. Remote initialization is disabled.</p>
+        </div>
+        <button class="submit-btn" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: 1px solid rgba(255, 59, 48, 0.2);" onclick="closeAuthModal()">Return to Secure Perimeter</button>
+    </div>
+</div>
 <footer>
     <div>&copy; 2026 Blue Horn Systems.</div>
     <div>NAIROBI, KENYA</div>
@@ -307,6 +318,13 @@
 
         closeModal();
         document.getElementById('inquiryForm').reset();
+    }
+    function showAuthError() {
+        document.getElementById('authModal').classList.add('active');
+    }
+
+    function closeAuthModal() {
+        document.getElementById('authModal').classList.remove('active');
     }
 </script>
 </body>
